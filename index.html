@@ -3,6 +3,42 @@
     <head>
         <meta charset="UTF-8" />
         <title>リバタリアン社会主義直接行動</title>
+    </head>
+    <body>
+        <div id="header">
+            <h1>リバタリアン社会主義直接行動</h1>
+            <p>Libertairan Socialist Direct Action in Japan (LSADJ)</p>
+        </div>
+        <div class="container">
+            <md-article src="README.md"></md-article>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script>
+            class MdArticle extends HTMLElement {
+                constructor() {
+                    super();
+                }
+
+                async connectedCallback() {
+                    const shadow = this.attachShadow({ mode: "open" });
+                    const srcPath = this.getAttribute("src");
+
+                    let md;
+                    if (srcPath !== null) {
+                        const res = await fetch(srcPath);
+                        md = await res.text();
+                    } else {
+                        md = this.innerText.trim();
+                    }
+
+                    shadow.innerHTML = `<div class="markdown">${marked.parse(md)}</p>`;
+                }
+            }
+
+            customElements.define("md-article", MdArticle);
+        </script>
+
         <style>
             body {
                 font-family: "Helvetica Neue", Arial, sans-serif;
@@ -85,40 +121,5 @@
                 }
             }
         </style>
-    </head>
-    <body>
-        <div id="header">
-            <h1>リバタリアン社会主義直接行動</h1>
-            <p>Libertairan Socialist Direct Action in Japan (LSADJ)</p>
-        </div>
-        <div class="container">
-            <md-article src="README.md"></md-article>
-        </div>
-
-        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-        <script>
-            class MdArticle extends HTMLElement {
-                constructor() {
-                    super();
-                }
-
-                async connectedCallback() {
-                    const shadow = this.attachShadow({ mode: "open" });
-                    const srcPath = this.getAttribute("src");
-
-                    let md;
-                    if (srcPath !== null) {
-                        const res = await fetch(srcPath);
-                        md = await res.text();
-                    } else {
-                        md = this.innerText.trim();
-                    }
-
-                    shadow.innerHTML = `<div class="markdown">${marked.parse(md)}</p>`;
-                }
-            }
-
-            customElements.define("md-article", MdArticle);
-        </script>
     </body>
 </html>

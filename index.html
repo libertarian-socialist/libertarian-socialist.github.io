@@ -28,13 +28,13 @@
                         margin-bottom: 10px;
                     }
                 }
-                #container {
+                .container {
                     max-width: 800px;
                     background: #ffffff;
                     margin: 40px auto;
                     border-radius: 8px;
                     padding: 32px;
-                    #markdown {
+                    .markdown {
                         /* Markdown Styles */
                         line-height: 1.75;
                         font-size: large;
@@ -94,20 +94,35 @@
             <h1>リバタリアン社会主義直接行動</h1>
             <p>Libertairan Socialist Direct Action in Japan (LSADJ)</p>
         </div>
-        <div id="container">
-            <div id="markdown"></div>
+        <div class="container">
+            <md-article src="README.md"></md-article>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <script>
-            const SOURCE = "./README.md";
+            class MdArticle extends HTMLElement {
+                constructor() {
+                    super();
+                }
 
-            const area = document.getElementById("markdown");
-            (async function () {
-                const res = await fetch(SOURCE);
-                const md = await res.text();
-                area.innerHTML = marked.parse(md);
-            })();
+                async connectedCallback() {
+                    const shadow = this.attachShadow({ mode: "open" });
+                    const srcPath = this.getAttribute("src");
+
+                    const md;
+                    if (srcPath !== null) {
+                        const path = area.innerHTML.trim();
+                        const res = await fetch(path);
+                        md = await res.text();
+                    } else {
+                        md = this.innerText.trim();
+                    }
+
+                    shadow.innerHTML = `<div class="markdown">${marked.parse(md)}</p>`;
+                }
+            }
+
+            customElements.define("md-article", MdArticle);
         </script>
     </body>
 </html>

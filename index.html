@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Markdown Viewer</title>
+        <style>
+            body {
+                font-family: "Helvetica Neue", Arial, sans-serif;
+                background: #f7f7f7;
+                margin: 0;
+                padding: 0;
+                line-height: 1.75;
+                font-size: large;
+            }
+            #container {
+                max-width: 800px;
+                margin: 40px auto;
+                background: #fff;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                padding: 32px;
+            }
+            #error {
+                color: #d33;
+                margin-top: 20px;
+            }
+            /* Markdown Styles */
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                margin-top: 1.5em;
+                margin-bottom: 0.5em;
+            }
+            p {
+                margin: 1em 0;
+            }
+            pre,
+            code {
+                background: #eee;
+                border-radius: 4px;
+            }
+            pre {
+                padding: 1em;
+                overflow-x: auto;
+            }
+            code {
+                padding: 2px 4px;
+            }
+            blockquote {
+                margin: 1em 0;
+                padding-left: 1em;
+                border-left: 4px solid #ccc;
+                color: #666;
+                background: #fafafa;
+            }
+            ul,
+            ol {
+                margin-left: 2em;
+            }
+            a {
+                color: #0a7;
+                text-decoration: underline;
+            }
+            img {
+                max-width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <div id="markdown"></div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script>
+            const SOURCE = "./README.md";
+
+            const area = document.getElementById("markdown");
+            (async function () {
+                const res = await fetch(SOURCE);
+                const md = await res.text();
+                area.innerHTML = marked.parse(md);
+            })();
+        </script>
+    </body>
+</html>

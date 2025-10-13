@@ -34,7 +34,7 @@
                     margin: 40px auto;
                     border-radius: 8px;
                     padding: 32px;
-                    .markdown {
+                    md-article {
                         /* Markdown Styles */
                         line-height: 1.75;
                         font-size: large;
@@ -47,9 +47,6 @@
                             border-bottom: 1px solid lightgray;
                             margin-top: 1.5em;
                             margin-bottom: 0.5em;
-                        }
-                        h1 {
-                            margin-top: 0;
                         }
                         p {
                             margin: 1em 0;
@@ -109,10 +106,9 @@
                     const shadow = this.attachShadow({ mode: "open" });
                     const srcPath = this.getAttribute("src");
 
-                    const md;
+                    let md;
                     if (srcPath !== null) {
-                        const path = area.innerHTML.trim();
-                        const res = await fetch(path);
+                        const res = await fetch(srcPath);
                         md = await res.text();
                     } else {
                         md = this.innerText.trim();

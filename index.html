@@ -10,6 +10,7 @@
             <p>Libertairan Socialist Direct Action in Japan (LSADJ)</p>
         </div>
         <div class="container">
+            <md-article>バンコクのろうど</md-article>
             <md-article src="README.md"></md-article>
         </div>
 
@@ -29,10 +30,16 @@
                         const res = await fetch(srcPath);
                         md = await res.text();
                     } else {
-                        md = this.innerText.trim();
+                        md = this.innerHTML.trim();
                     }
 
-                    shadow.innerHTML = `<div class="markdown">${marked.parse(md)}</p>`;
+                    shadow.innerHTML = `
+                      <div class="container">
+                        <div class="markdown">
+                          ${marked.parse(md)}
+                        </div>
+                      </div>
+                    `;
                 }
             }
 

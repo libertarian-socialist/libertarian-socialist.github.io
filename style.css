@@ -26,7 +26,7 @@ body {
         padding: 32px;
         .markdown {
             line-height: 1.75;
-            font-size: large;
+            font-size: larger;
             h1,
             h2,
             h3,
